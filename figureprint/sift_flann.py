@@ -5,7 +5,7 @@ import numpy as np
 def preprocess_fingerprint(image_path):
     img = cv2.imread(image_path, 0)
     _, img_bin = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-    return img_bin
+    return img
  
 def match_fingerprints(img1_path, img2_path):
     img1 = preprocess_fingerprint(img1_path)
