@@ -50,6 +50,7 @@ def showImg(image,title: str= "image"):
         cv2.imshow(title, image)
         if cv2.waitKey(1)== ord('q'):
             break
+    cv2.imwrite("assignment2/images/{}.png".format(title),image)
     cv2.destroyAllWindows()
 
 
