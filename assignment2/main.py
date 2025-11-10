@@ -54,7 +54,6 @@ def showImg(image,title: str= "image"):
 
 
 
-
 def main():
     #get the image
     img = cv2.imread("assignment2/lena-2.png")
