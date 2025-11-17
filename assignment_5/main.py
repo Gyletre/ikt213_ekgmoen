@@ -4,15 +4,15 @@ from datetime import datetime, timedelta
 import numpy as np
 import platform
 import pickle
-
-
+import os
+dirname = os.path.dirname(__file__)
 # Our list of known face encodings and a matching list of metadata about each face.
 known_face_encodings = []
 known_face_metadata = []
 
 
 def save_known_faces():
-    with open("known_faces.dat", "wb") as face_data_file:
+    with open(dirname + "/known_faces.dat", "wb") as face_data_file:
         face_data = [known_face_encodings, known_face_metadata]
         pickle.dump(face_data, face_data_file)
         print("Known faces backed up to disk.")
@@ -22,10 +22,10 @@ def load_known_faces():
     global known_face_encodings, known_face_metadata
 
     try:
-        with open("known_faces.dat", "rb") as face_data_file:
+        with open(dirname+"/known_faces.dat", "rb") as face_data_file:
             known_face_encodings, known_face_metadata = pickle.load(face_data_file)
             print("Known faces loaded from disk.")
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         print("No previous face data found - starting with a blank known face list.")
         pass
 
@@ -131,7 +131,7 @@ def main_loop():
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-        rgb_small_frame = small_frame[:, :, ::-1]
+        rgb_small_frame = cv2.cvtColor(small_frame, cv2. COLOR_BGR2RGB)
 
         # Find all the face locations and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(rgb_small_frame)
