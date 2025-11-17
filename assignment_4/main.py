@@ -41,13 +41,11 @@ def align_imgs_SIFT(image_to_align, referance_image, max_features, good_match_pe
     matcher = cv2.FlannBasedMatcher(index_parameters, search_parameters)
     knn_matches = matcher.knnMatch(desc1, desc2, 2)
     
-    #-- Filter matches using the Lowe's ratio test
     good_matches = []
     for m,n in knn_matches:
         if m.distance < good_match_percent * n.distance:
             good_matches.append(m)
     
-    #-- Draw matches
     img_matches = np.empty((max(image_to_align.shape[0], referance_image.shape[0]), image_to_align.shape[1]+referance_image.shape[1], 3), dtype=np.uint8)
     cv2.drawMatches(image_to_align, 
                     kp1, 
@@ -56,7 +54,6 @@ def align_imgs_SIFT(image_to_align, referance_image, max_features, good_match_pe
                     img_matches, 
                     flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
     
-    #-- Show detected matches
     cv2.imwrite(dirname+"/images/SIFT_aligned_with_min_acc={}%.png".format(good_match_percent),img_matches)
 
 referance_image = cv2.imread(dirname + "/reference_img.png")
